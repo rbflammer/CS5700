@@ -9,23 +9,11 @@ namespace ShapeStrategizing
         {
             string json = File.ReadAllText(path);
 
-    //      JsonTextReader reader = new JsonTextReader(new StringReader(json));
-    //
-    //      while (reader.Read())
-    //      {
-    //          if (reader.Value != null)
-    //          {
-    //              Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
-    //          }
-    //          else
-    //          {
-    //              Console.WriteLine("Token: {0}", reader.TokenType);
-    //          }
-    //      }
-
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonObject[]>(json);
 
             List<Dictionary<string, string>> output = new List<Dictionary<string, string>>();
+
+            if (result == null) return output;
 
             foreach (var response in result)
             {
@@ -40,14 +28,15 @@ namespace ShapeStrategizing
                 output.Add(shape);
             }
 
-            foreach(var shape in output)
-            {
-                Console.WriteLine(shape["type"]);
-                for (int i = 0; i < int.Parse(shape["argc"]); i++)
-                {
-                    Console.WriteLine(shape[$"arg{i}"]);
-                }
-            }
+          //foreach(var shape in output)
+          //{
+          //    Console.WriteLine(shape["type"]);
+          //    for (int i = 0; i < int.Parse(shape["argc"]); i++)
+          //    {
+          //        Console.WriteLine(shape[$"arg{i}"]);
+          //    }
+          //}
+
             return output;
         }
     }

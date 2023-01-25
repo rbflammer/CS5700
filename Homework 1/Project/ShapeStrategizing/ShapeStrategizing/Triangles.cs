@@ -2,16 +2,32 @@
 {
     public class Triangles : ConvexPolygons
     {
-        protected string type = "triangles";
+        protected new string type = "triangles";
 
         public Triangles(Shape parent) : base(parent)
         {
             this.parent = parent;
         }
 
-        public string toString()
+        public override string toString()
         {
-            return $"                    Triangles:                                               {totalArea}"; ;
+            return $"Triangles:"; ;
+        }
+        public override List<string> generateOutput()
+        {
+            List<string> output = new List<string>();
+            output.Add(totalArea.ToString());
+            output.Add(toString());
+
+            Shape? nextParent = parent;
+            while (nextParent != null)
+            {
+                output.Add(nextParent.toString());
+                nextParent = nextParent.parent;
+            }
+
+            output.Reverse();
+            return output;
         }
     }
 }

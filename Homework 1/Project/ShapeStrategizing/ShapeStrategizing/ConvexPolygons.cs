@@ -2,22 +2,38 @@
 {
     public class ConvexPolygons : Shape
     {
-        protected string type = "convex polygon";
+        protected new string type = "convex polygon";
 
         public ConvexPolygons(Shape parent)
         {
             this.parent = parent;
         }
 
-        public void addArea(double area)
+        public override void addArea(double area)
         {
             totalArea += area;
             parent.addArea(area);
         }
 
-        public string toString()
+        public override string toString()
         {
-            return $"          Convex Polygons:                                                   {totalArea}"; ;
+            return $"Convex Polygons:"; ;
+        }
+        public override List<string> generateOutput()
+        {
+            List<string> output = new List<string>();
+            output.Add(totalArea.ToString());
+            output.Add(toString());
+
+            Shape? nextParent = parent;
+            while (nextParent != null)
+            {
+                output.Add(nextParent.toString());
+                nextParent = nextParent.parent;
+            }
+
+            output.Reverse();
+            return output;
         }
     }
 }

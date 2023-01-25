@@ -1,24 +1,33 @@
 ﻿namespace ShapeStrategizing
 {
-    public class Ellipses : Shape
+    public class Equilateral : Triangles
     {
-        protected new string type = "ellipses";
-        protected const double pi = 3.14159265359;
+        protected new string type = "equilateral";
 
-        public Ellipses(Shape parent)
+        public Equilateral(Shape parent) : base(parent)
         {
             this.parent = parent;
         }
 
-        public override void addArea(double area)
+        public override void addArea(Dictionary<string, string> shape)
         {
+            if (shape == null) return;
+            if (!type.Equals(shape["type"], StringComparison.OrdinalIgnoreCase)) return;
+
+            double side = double.Parse(shape["arg0"]);
+            double semiperimeter = (side * 3) / 2;
+
+            // Heron's Formula
+            double area = Math.Sqrt(semiperimeter * (semiperimeter - side) * (semiperimeter - side) * (semiperimeter - side));
             totalArea += area;
+
+            // Passing up tree
             parent.addArea(area);
         }
 
         public override string toString()
         {
-            return $"Ellipses:"; ;
+            return $"Equilateral:";
         }
         public override List<string> generateOutput()
         {

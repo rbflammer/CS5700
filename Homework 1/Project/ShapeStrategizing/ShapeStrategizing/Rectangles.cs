@@ -2,16 +2,33 @@
 {
     public class Rectangles : ConvexPolygons
     {
-        protected string type = "rectangles";
+        protected new string type = "rectangles";
 
         public Rectangles(Shape parent) : base(parent)
         {
             this.parent = parent;
         }
 
-        public string toString()
+        public override string toString()
         {
-            return $"                   Rectangles:                                               {totalArea}"; ;
+            return $"Rectangles:"; ;
+        }
+
+        public override List<string> generateOutput()
+        {
+            List<string> output = new List<string>();
+            output.Add(totalArea.ToString());
+            output.Add(toString());
+
+            Shape? nextParent = parent;
+            while (nextParent != null)
+            {
+                output.Add(nextParent.toString());
+                nextParent = nextParent.parent;
+            }
+
+            output.Reverse();
+            return output;
         }
     }
 }

@@ -4,10 +4,11 @@
 	{
 		protected double totalArea = 0;
 		protected string type = "shape";
-		protected Shape parent;
+		public Shape? parent;
 
 		public Shape()
 		{
+			// Empty
 		}
 
 		public String getType()
@@ -20,24 +21,26 @@
 			return totalArea;
 		}
 
-		public string toString()
+		public virtual string toString()
 		{
-			return $"Total area of all shapes:                                                    {totalArea}";
+			return $"All Shapes:";
 		}
 
-		public void addArea(double area)
+		public virtual void addArea(double area)
 		{
 			totalArea += area;
 		}
 
-		public void addArea(Dictionary<string, string> args)
+		public virtual void addArea(Dictionary<string, string> args)
 		{
 			return;
 		}
 
-		private bool isMyType(string type)
-		{
-			return this.type.Equals(type);
+		public virtual List<string> generateOutput() {
+			List<string> output = new List<string>();
+			output.Add(toString());
+			output.Add(totalArea.ToString());
+		    return output;
 		}
 	}
 
