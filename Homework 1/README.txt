@@ -6,7 +6,7 @@ J or j for JSON
 
 Where is the input file located?
 Filepath of input file given in either relative or absolute terms.
-Example: C:/Documents/Files/input.xml
+Example: C:\Documents\Files\input.xml
 
 Should the output file format be .csv or .txt(C/T)?
 C or c for .csv
@@ -14,4 +14,4 @@ T or t for .txt
 
 Where should the output file be saved?
 Filepath including filename of desired output file.
-Example: C:/Documents/Output/output.csv
+Example: C:\Documents\Output\output.csv
