@@ -2,46 +2,58 @@
   "shapes": [
     {
       "type": "square",
-      "length": "10"
+      "args": ["10"]
     },
     {
       "type": "circle",
-      "radius": "4" 
+      "args": ["4"]
     },
     {
       "type": "non-circle ellipse",
-      "a": "4",
-      "b": "2"
+      "args": [
+        "4",
+        "2"
+      ]
     },
     {
       "type": "non-square rectangle",
-      "length": "8",
-      "width": "3"
+      "args": [
+        "8",
+        "3"
+      ]
     },
     {
       "type": "equilateral",
-      "length": "4" 
+      "args": ["4"]
     },
     {
       "type": "isosceles",
-      "length1": "4",
-      "length2": "2 
+      "args": [
+        "4",
+        "2"
+      ]
     },
     {
       "type": "scalene",
-      "length1": "4",
-      "length2": "2",
-      "length3": "6"  
+      "args": [
+        "4",
+        "2",
+        "6"
+      ]
     },
     {
       "type": "other regular polygon",
-      "sideLength": "3",
-      "sideCount": "7"
+      "args": [
+        "3",
+        "7"
+      ]
     },
     {
       "type": "circle",
-      "radius": "7" 
-    },
+      "args": [
+        "7" 
+      ]
+    }
 
   ]
 }

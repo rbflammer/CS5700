@@ -1,11 +1,13 @@
 ﻿
-
 namespace ShapeStrategizing
 {
     class MainClass
     {
         static void Main(string[] args)
         {
+            JSONReader.parseJson("D:/jsontest.json");
+
+
             // Getting input parameters
 
             // Getting whether xml or json
@@ -48,6 +50,8 @@ namespace ShapeStrategizing
                 Console.WriteLine("Please enter a valid path.");
                 outputLocation = Console.ReadLine();
             }
+
+
         }
     }
 }
