@@ -1,0 +1,47 @@
+{
+  "shapes": [
+    {
+      "type": "square",
+      "length": "10"
+    },
+    {
+      "type": "circle",
+      "radius": "4" 
+    },
+    {
+      "type": "non-circle ellipse",
+      "a": "4",
+      "b": "2"
+    },
+    {
+      "type": "non-square rectangle",
+      "length": "8",
+      "width": "3"
+    },
+    {
+      "type": "equilateral",
+      "length": "4" 
+    },
+    {
+      "type": "isosceles",
+      "length1": "4",
+      "length2": "2 
+    },
+    {
+      "type": "scalene",
+      "length1": "4",
+      "length2": "2",
+      "length3": "6"  
+    },
+    {
+      "type": "other regular polygon",
+      "sideLength": "3",
+      "sideCount": "7"
+    },
+    {
+      "type": "circle",
+      "radius": "7" 
+    },
+
+  ]
+}
