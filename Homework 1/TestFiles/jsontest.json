@@ -1,59 +1,56 @@
-{
-  "shapes": [
-    {
-      "type": "square",
-      "args": ["10"]
-    },
-    {
-      "type": "circle",
-      "args": ["4"]
-    },
-    {
-      "type": "non-circle ellipse",
-      "args": [
-        "4",
-        "2"
-      ]
-    },
-    {
-      "type": "non-square rectangle",
-      "args": [
-        "8",
-        "3"
-      ]
-    },
-    {
-      "type": "equilateral",
-      "args": ["4"]
-    },
-    {
-      "type": "isosceles",
-      "args": [
-        "4",
-        "2"
-      ]
-    },
-    {
-      "type": "scalene",
-      "args": [
-        "4",
-        "2",
-        "6"
-      ]
-    },
-    {
-      "type": "other regular polygon",
-      "args": [
-        "3",
-        "7"
-      ]
-    },
-    {
-      "type": "circle",
-      "args": [
-        "7" 
-      ]
-    }
-
-  ]
-}
+[
+  {
+    "type": "square",
+    "args": ["10"]
+  },
+  {
+    "type": "circle",
+    "args": ["4"]
+  },
+  {
+    "type": "non-circle ellipse",
+    "args": [
+      "4",
+      "2"
+    ]
+  },
+  {
+    "type": "non-square rectangle",
+    "args": [
+      "8",
+      "3"
+    ]
+  },
+  {
+    "type": "equilateral",
+    "args": ["4"]
+  },
+  {
+    "type": "isosceles",
+    "args": [
+      "4",
+      "2"
+    ]
+  },
+  {
+    "type": "scalene",
+    "args": [
+      "4",
+      "2",
+      "6"
+    ]
+  },
+  {
+    "type": "regular polygon",
+    "args": [
+      "3",
+      "7"
+    ]
+  },
+  {
+    "type": "circle",
+    "args": [
+      "7" 
+    ]
+  }
+]

@@ -6,7 +6,7 @@ namespace ShapeStrategizing
         static void Main(string[] args)
         {
             JSONReader.parseJson("D:/jsontest.json");
-
+            XMLReader.parseXml("D:/xmltest.xml");
 
             // Getting input parameters
 
@@ -51,6 +51,14 @@ namespace ShapeStrategizing
                 outputLocation = Console.ReadLine();
             }
 
+            List<Dictionary<string, string>> shapes;
+
+            if (inputType== "j") {
+                shapes = JSONReader.parseJson(inputLocation);
+            } else if (inputType== "x")
+            {
+
+            }
 
         }
     }

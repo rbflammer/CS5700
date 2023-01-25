@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Text;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace ShapeStrategizing
 {
@@ -7,32 +10,59 @@ namespace ShapeStrategizing
     {
         public static List<Dictionary<string, string>> parseXml(string path)
         {
-            string json = File.ReadAllText(path);
-
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonObject[]>(json);
+            string xml = File.ReadAllText(path);
+            
+            XDocument doc = XDocument.Parse(xml);
 
             List<Dictionary<string, string>> output = new List<Dictionary<string, string>>();
 
-            foreach (var response in result)
+
+            foreach (var shape in doc.Root.Elements("shape").Select(element => element.Value).ToList())
             {
-                Dictionary<string, string> shape = new Dictionary<string, string>();
-                int index = 0;
-                shape.Add("type", response.type);
-                foreach (var arg in response.args)
+                Dictionary<string, string> newShape = new Dictionary<string, string>();
+                StringBuilder sb = new StringBuilder();
+                int index = -1;
+                int quotecount = 0;
+                foreach (char character in shape.ToString())
                 {
-                    shape.Add($"arg{index++}", arg);
+                    if (character != '\"')
+                    {
+                        sb.Append(character);
+                    } 
+                    else
+                    {
+                        if (quotecount % 2 == 0 && quotecount > 0)
+                        {
+                            if (index == -1)
+                            {
+                                newShape.Add("type", sb.ToString());
+                            }
+                            else
+                            {
+                                newShape.Add($"arg{index}", sb.ToString());
+                            }
+                            sb.Clear();
+                            index++;
+                        }
+                        quotecount++;
+                    }
                 }
-                shape.Add("argc", index.ToString());
-                output.Add(shape);
+
+                newShape.Add($"arg{index}", sb.ToString());
+                newShape.Add("argc", (index + 1).ToString());
+                output.Add(newShape);
+            }
+
+            foreach (var shape in output)
+            {
+                Console.WriteLine(shape["type"]);
+                for (int i = 0; i < int.Parse(shape["argc"]); i++)
+                {
+                    Console.WriteLine(shape[$"arg{i}"]);
+                }
             }
 
             return output;
         }
-    }
-
-    class JsonObject
-    {
-        public string type;
-        public string[] args;
     }
 }

@@ -40,14 +40,14 @@ namespace ShapeStrategizing
                 output.Add(shape);
             }
 
-      //    foreach(var shape in output)
-      //    {
-      //        Console.WriteLine(shape["type"]);
-      //        for (int i = 0; i < int.Parse(shape["argc"]); i++)
-      //        {
-      //            Console.WriteLine(shape[$"arg{i}"]);
-      //        }
-      //    }
+            foreach(var shape in output)
+            {
+                Console.WriteLine(shape["type"]);
+                for (int i = 0; i < int.Parse(shape["argc"]); i++)
+                {
+                    Console.WriteLine(shape[$"arg{i}"]);
+                }
+            }
             return output;
         }
     }

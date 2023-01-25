@@ -1,62 +1,62 @@
-<Shapes>
-    <Shape>
+<shapes>
+    <shape>
         <type>"square"</type>
         <args>
             <arg>"10"</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"circle"</type>
         <args>
             <arg>"4"</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"non-circle ellipse"</type>
         <args>
             <arg>"4"</arg>
             <arg>"2"</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"non-square rectangle"</type>
         <args>
             <arg>"8"</arg>
             <arg>"3</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"equilateral"</type>
         <args>
             <arg>"4"</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"isosceles"</type>
         <args>
             <arg>"4"</arg>
             <arg>"2"</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"scalene"</type>
         <args>
             <arg>"4"</arg>
             <arg>"2"</arg>
             <arg>"6"</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"regular polygon"</type>
         <args>
             <arg>"3"</arg>
             <arg>"7"</arg>
         </args>
-    </Shape>
-    <Shape>
+    </shape>
+    <shape>
         <type>"circle"</type>
         <args>
             <arg>"7"</arg>
         </args>
-    </Shape>
-</Shapes>
+    </shape>
+</shapes>
