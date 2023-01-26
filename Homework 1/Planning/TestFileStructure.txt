@@ -5,6 +5,9 @@ The first parameter is the type of the shape, with label "type".
 The second is a list of features of that shape labeled "args".
 
 The order of the list of features matters, and will be detailed later.
+More features than outlined is allowed, all features after the required
+will be skipped. Less features than a type requires will result in the 
+shape being skipped. Shapes with an incorrect type will be skipped.
 
 Example JSON file:
 

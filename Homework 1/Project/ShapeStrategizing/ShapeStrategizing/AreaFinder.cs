@@ -41,7 +41,14 @@ namespace ShapeStrategizing
 			{
 				for (int i = 0; i < 13; i++)
 				{
-					shapes[i].addArea(shape);
+					try
+					{
+						shapes[i].addArea(shape);
+					} 
+					catch
+					{
+						// Empty
+					}
 				}
 			}
 
