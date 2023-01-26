@@ -1,0 +1,84 @@
+Description of structure of JSON input files:
+List of objects with two parameters.
+
+The first parameter is the type of the shape, with label "type".
+The second is a list of features of that shape labeled "args".
+
+The order of the list of features matters, and will be detailed later.
+
+Example JSON file:
+
+[
+  {
+    "type": "circle",
+    "args": [
+      "4"
+    ]
+  },
+  {
+    "type": "non-circle ellipse",
+    "args": [
+      "7",
+      "3"
+    ]
+  }
+]
+
+
+
+Description of XML input files:
+
+The XML input file is similar to that of the JSON input file
+
+The XML is a list of list items.
+Each list item has two parameters.
+
+The first parameter is the type of the shape surrounded by double quotes.
+The second parameter is a list of arguments following the same order of the JSON arguments.
+Each argument must be surrounded by double quotes.
+
+Example XML file:
+<shapes>
+  <shape>
+    <type>"equilateral"</type>
+    <args>
+      <arg>"7"</arg>
+    </args>
+  </shape
+  <shape>
+    <type>"scalene"</type>
+    <args>
+      <arg>"8"</arg>
+      <arg>"6"</arg>
+      <arg>"5"</arg>
+    </args>
+  </shape
+</shapes>
+
+
+
+List of valid types and parameter order:
+
+type: "circle"
+args order: radius
+
+type: "non-circle ellipse"
+args order: maximum radius, minimum radius
+
+type: "square"
+args order: side length
+
+type: "non-square rectangle"
+args order: length, width
+
+type: "equilateral"
+args order: side length
+
+type: "isosceles"
+args order: duplicate side length, single side length
+
+type: "scalene"
+args order: side1 length, side2 length, side3 length
+
+type: "regular polygon"
+args order: side length, number of sides

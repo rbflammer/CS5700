@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace ShapeStrategizing
 {
-    class XMLReader
+    public class XMLReader
     {
         public static List<Dictionary<string, string>> parseXml(string path)
         {
@@ -52,15 +52,6 @@ namespace ShapeStrategizing
                 newShape.Add("argc", (index + 1).ToString());
                 output.Add(newShape);
             }
-
-          //foreach (var shape in output)
-          //{
-          //    Console.WriteLine(shape["type"]);
-          //    for (int i = 0; i < int.Parse(shape["argc"]); i++)
-          //    {
-          //        Console.WriteLine(shape[$"arg{i}"]);
-          //    }
-          //}
 
             return output;
         }

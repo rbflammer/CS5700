@@ -3,7 +3,7 @@ using System;
 
 namespace ShapeStrategizing
 {
-    class JSONReader
+    public class JSONReader
     {
         public static List<Dictionary<string, string>> parseJson(string path)
         {
