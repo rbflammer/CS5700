@@ -96,6 +96,7 @@ namespace UnitTests
         [TestMethod]
         public void testXMLParsing()
         {
+            // Setup
             string testxml =
                 "<shapes>" +
                 "  <shape>" +
@@ -114,10 +115,12 @@ namespace UnitTests
 
             File.WriteAllText("test.xml", testxml);
 
+            // Stimulating
             List<Dictionary<string, string>> output = XMLReader.parseXml("test.xml");
 
             File.Delete("test.xml");
 
+            // Checking equality
             Assert.AreEqual(output[0]["type"], "circle");
             Assert.AreEqual(output[0]["arg0"], "4");
             Assert.AreEqual(output[0]["argc"], "1");
@@ -132,6 +135,7 @@ namespace UnitTests
         [TestMethod]
         public void testJSONParsing()
         {
+            // Setup
             string testjson =
                 "[" +
                 "  {" +
@@ -150,10 +154,12 @@ namespace UnitTests
 
             File.WriteAllText("test.json", testjson);
 
+            // Stimulating
             List<Dictionary<string, string>> output = JSONReader.parseJson("test.json");
 
             File.Delete("test.json");
 
+            // Checking equality
             Assert.AreEqual(output[0]["type"], "circle");
             Assert.AreEqual(output[0]["arg0"], "4");
             Assert.AreEqual(output[0]["argc"], "1");
