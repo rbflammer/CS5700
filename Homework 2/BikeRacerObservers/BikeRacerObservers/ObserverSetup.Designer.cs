@@ -1,6 +1,6 @@
 ﻿namespace BikeRacerObservers
 {
-    partial class Form1
+    partial class ObserverSetup
     {
         /// <summary>
         /// Required designer variable.
@@ -41,9 +41,9 @@
             this.ObserversOfRacersLbl = new System.Windows.Forms.Label();
             this.ObserversOfRacersListView = new System.Windows.Forms.ListView();
             this.CreateRacerObserverBtn = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.label1 = new System.Windows.Forms.Label();
+            this.CreateCheaterObserverBtn = new System.Windows.Forms.Button();
+            this.CheaterObserverListView = new System.Windows.Forms.ListView();
+            this.ObserversOfCheatersLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // UnobservedRacersListView
@@ -51,13 +51,15 @@
             this.UnobservedRacersListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.bib,
             this.racer_name});
+            this.UnobservedRacersListView.FullRowSelect = true;
             this.UnobservedRacersListView.HideSelection = false;
-            this.UnobservedRacersListView.Location = new System.Drawing.Point(570, 34);
+            this.UnobservedRacersListView.Location = new System.Drawing.Point(602, 34);
             this.UnobservedRacersListView.Name = "UnobservedRacersListView";
-            this.UnobservedRacersListView.Size = new System.Drawing.Size(218, 472);
+            this.UnobservedRacersListView.Size = new System.Drawing.Size(250, 472);
             this.UnobservedRacersListView.TabIndex = 0;
             this.UnobservedRacersListView.UseCompatibleStateImageBehavior = false;
             this.UnobservedRacersListView.View = System.Windows.Forms.View.Details;
+            this.UnobservedRacersListView.SelectedIndexChanged += new System.EventHandler(this.UnobservedRacersListView_SelectedIndexChanged);
             // 
             // bib
             // 
@@ -68,16 +70,18 @@
             // 
             this.racer_name.Tag = "";
             this.racer_name.Text = "Racer Name";
+            this.racer_name.Width = 190;
             // 
             // ObservedRacersListView
             // 
             this.ObservedRacersListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.ObservedRacersListView.FullRowSelect = true;
             this.ObservedRacersListView.HideSelection = false;
             this.ObservedRacersListView.Location = new System.Drawing.Point(282, 34);
             this.ObservedRacersListView.Name = "ObservedRacersListView";
-            this.ObservedRacersListView.Size = new System.Drawing.Size(218, 472);
+            this.ObservedRacersListView.Size = new System.Drawing.Size(250, 472);
             this.ObservedRacersListView.TabIndex = 1;
             this.ObservedRacersListView.UseCompatibleStateImageBehavior = false;
             this.ObservedRacersListView.View = System.Windows.Forms.View.Details;
@@ -91,11 +95,12 @@
             // 
             this.columnHeader2.Tag = "";
             this.columnHeader2.Text = "Racer Name";
+            this.columnHeader2.Width = 190;
             // 
             // SubscribeBtn
             // 
             this.SubscribeBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SubscribeBtn.Location = new System.Drawing.Point(506, 180);
+            this.SubscribeBtn.Location = new System.Drawing.Point(538, 180);
             this.SubscribeBtn.Name = "SubscribeBtn";
             this.SubscribeBtn.Size = new System.Drawing.Size(58, 35);
             this.SubscribeBtn.TabIndex = 2;
@@ -105,18 +110,18 @@
             // UnsubscribeBtn
             // 
             this.UnsubscribeBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UnsubscribeBtn.Location = new System.Drawing.Point(506, 248);
+            this.UnsubscribeBtn.Location = new System.Drawing.Point(538, 250);
             this.UnsubscribeBtn.Name = "UnsubscribeBtn";
             this.UnsubscribeBtn.Size = new System.Drawing.Size(58, 35);
             this.UnsubscribeBtn.TabIndex = 3;
             this.UnsubscribeBtn.Text = ">";
             this.UnsubscribeBtn.UseVisualStyleBackColor = true;
-            this.UnsubscribeBtn.Click += new System.EventHandler(this.button2_Click);
+            this.UnsubscribeBtn.Click += new System.EventHandler(this.UnsubscribeBtn_Click);
             // 
             // OtherRacersLbl
             // 
             this.OtherRacersLbl.AutoSize = true;
-            this.OtherRacersLbl.Location = new System.Drawing.Point(567, 15);
+            this.OtherRacersLbl.Location = new System.Drawing.Point(599, 15);
             this.OtherRacersLbl.Name = "OtherRacersLbl";
             this.OtherRacersLbl.Size = new System.Drawing.Size(89, 16);
             this.OtherRacersLbl.TabIndex = 4;
@@ -131,7 +136,6 @@
             this.ObservedRacersLbl.Size = new System.Drawing.Size(117, 16);
             this.ObservedRacersLbl.TabIndex = 5;
             this.ObservedRacersLbl.Text = "Observed Racers:";
-            this.ObservedRacersLbl.Click += new System.EventHandler(this.label1_Click);
             // 
             // ObserversOfRacersLbl
             // 
@@ -144,8 +148,10 @@
             // 
             // ObserversOfRacersListView
             // 
+            this.ObserversOfRacersListView.FullRowSelect = true;
             this.ObserversOfRacersListView.HideSelection = false;
             this.ObserversOfRacersListView.Location = new System.Drawing.Point(12, 34);
+            this.ObserversOfRacersListView.MultiSelect = false;
             this.ObserversOfRacersListView.Name = "ObserversOfRacersListView";
             this.ObserversOfRacersListView.Size = new System.Drawing.Size(242, 181);
             this.ObserversOfRacersListView.TabIndex = 7;
@@ -159,42 +165,45 @@
             this.CreateRacerObserverBtn.TabIndex = 8;
             this.CreateRacerObserverBtn.Text = "Create";
             this.CreateRacerObserverBtn.UseVisualStyleBackColor = true;
+            this.CreateRacerObserverBtn.Click += new System.EventHandler(this.CreateRacerObserverBtn_Click);
             // 
-            // button1
+            // CreateCheaterObserverBtn
             // 
-            this.button1.Location = new System.Drawing.Point(12, 466);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 40);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Create";
-            this.button1.UseVisualStyleBackColor = true;
+            this.CreateCheaterObserverBtn.Location = new System.Drawing.Point(12, 466);
+            this.CreateCheaterObserverBtn.Name = "CreateCheaterObserverBtn";
+            this.CreateCheaterObserverBtn.Size = new System.Drawing.Size(75, 40);
+            this.CreateCheaterObserverBtn.TabIndex = 11;
+            this.CreateCheaterObserverBtn.Text = "Create";
+            this.CreateCheaterObserverBtn.UseVisualStyleBackColor = true;
             // 
-            // listView1
+            // CheaterObserverListView
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 279);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(242, 181);
-            this.listView1.TabIndex = 10;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.CheaterObserverListView.FullRowSelect = true;
+            this.CheaterObserverListView.HideSelection = false;
+            this.CheaterObserverListView.Location = new System.Drawing.Point(12, 279);
+            this.CheaterObserverListView.MultiSelect = false;
+            this.CheaterObserverListView.Name = "CheaterObserverListView";
+            this.CheaterObserverListView.Size = new System.Drawing.Size(242, 181);
+            this.CheaterObserverListView.TabIndex = 10;
+            this.CheaterObserverListView.UseCompatibleStateImageBehavior = false;
             // 
-            // label1
+            // ObserversOfCheatersLbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 260);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 16);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Observers of Racers:";
+            this.ObserversOfCheatersLbl.AutoSize = true;
+            this.ObserversOfCheatersLbl.Location = new System.Drawing.Point(9, 260);
+            this.ObserversOfCheatersLbl.Name = "ObserversOfCheatersLbl";
+            this.ObserversOfCheatersLbl.Size = new System.Drawing.Size(144, 16);
+            this.ObserversOfCheatersLbl.TabIndex = 9;
+            this.ObserversOfCheatersLbl.Text = "Observers of Cheaters:";
             // 
-            // Form1
+            // ObserverSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 523);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listView1);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(864, 523);
+            this.Controls.Add(this.CreateCheaterObserverBtn);
+            this.Controls.Add(this.CheaterObserverListView);
+            this.Controls.Add(this.ObserversOfCheatersLbl);
             this.Controls.Add(this.CreateRacerObserverBtn);
             this.Controls.Add(this.ObserversOfRacersListView);
             this.Controls.Add(this.ObserversOfRacersLbl);
@@ -204,9 +213,9 @@
             this.Controls.Add(this.SubscribeBtn);
             this.Controls.Add(this.ObservedRacersListView);
             this.Controls.Add(this.UnobservedRacersListView);
-            this.Name = "Form1";
+            this.Name = "ObserverSetup";
             this.Text = "Observer Setup";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.ObserverSetup_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,9 +236,9 @@
         private System.Windows.Forms.Label ObserversOfRacersLbl;
         private System.Windows.Forms.ListView ObserversOfRacersListView;
         private System.Windows.Forms.Button CreateRacerObserverBtn;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button CreateCheaterObserverBtn;
+        private System.Windows.Forms.ListView CheaterObserverListView;
+        private System.Windows.Forms.Label ObserversOfCheatersLbl;
     }
 }
 
