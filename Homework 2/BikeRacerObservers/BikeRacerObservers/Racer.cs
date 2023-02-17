@@ -22,40 +22,59 @@ namespace BikeRacerObservers
 
         public long? EndTime { get; set; }
 
-        public int? CurrentSensorNumber { get; set; } = 0;
+        public int? CurrentSensorNumber { get; set; }
 
         public long? CurrentSensorTime { get; set; }
 
         private List<RacerObserver> _observers;
+
+        private bool informingObservers;
 
         public Racer()
         {
             _observers= new List<RacerObserver>();
             EndTime = 0;
             CurrentSensorNumber = 0;
+            CurrentSensorTime = 0;
+            informingObservers= false;
         }
 
-        public void Subscribe()
+
+        // THE FOLLOWING FOUR METHODS ARE PART OF THE OBSERVER PATTERN
+        public void Subscribe(RacerObserver observer)
         {
-            // TODO: Fill this out
+            if (_observers.Contains(observer)) return;
+
+            while (informingObservers) ; // Mutex for observer informing
+
+            _observers.Add(observer);
         }
 
-        public void Unsubscribe()
+        public void Unsubscribe(RacerObserver observer)
         {
-            // TODO: Fill this out
+            if (!_observers.Contains(observer)) return;
+
+            while (informingObservers) ; // Mutex for observer informing
+
+            _observers.Remove(observer);
         }
 
-        public void Update()
+        public void Update(int currentSensorNumber, long currentSensorTime)
         {
-            // TODO: Fill this out
+            CurrentSensorNumber = currentSensorNumber;
+            CurrentSensorTime = currentSensorTime;
+
+            InformObservers();
         }
 
         private void InformObservers()
         {
+            informingObservers= true;
             foreach (var observer in _observers) 
             {
-                observer.Update(this);
+                observer.Notify();
             }
+            informingObservers= false;
         }
     }
 }

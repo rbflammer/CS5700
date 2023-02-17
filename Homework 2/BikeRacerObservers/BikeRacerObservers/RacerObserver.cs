@@ -8,7 +8,12 @@ namespace BikeRacerObservers
 {
     public interface RacerObserver
     {
-        void Update(Racer racer);
+        void Notify();
         void Unsubscribe(Racer racer);
+        List<Racer> GetRacers();
+        void Subscribe(Racer racer);
+        string GetName();
+        void SetName(string name);
+        void FinishSubscribing();
     }
 }

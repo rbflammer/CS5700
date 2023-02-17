@@ -57,6 +57,12 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -71,6 +77,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BigScreen.Designer.cs">
+      <DependentUpon>BigScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BigScreenCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BigScreenCreator.Designer.cs">
+      <DependentUpon>BigScreenCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheaterScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheaterScreen.Designer.cs">
+      <DependentUpon>CheaterScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheaterObserver.cs" />
+    <Compile Include="CheaterScreenCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheaterScreenCreator.Designer.cs">
+      <DependentUpon>CheaterScreenCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheatingComputer.cs" />
+    <Compile Include="BigScreenObserver.cs" />
+    <Compile Include="DataReciever.cs" />
     <Compile Include="FileSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,7 +122,20 @@
     <Compile Include="Racer.cs" />
     <Compile Include="RaceGroup.cs" />
     <Compile Include="RacerObserver.cs" />
+    <Compile Include="RacerStatus.cs" />
     <Compile Include="Sensor.cs" />
+    <EmbeddedResource Include="BigScreen.resx">
+      <DependentUpon>BigScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BigScreenCreator.resx">
+      <DependentUpon>BigScreenCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheaterScreen.resx">
+      <DependentUpon>CheaterScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheaterScreenCreator.resx">
+      <DependentUpon>CheaterScreenCreator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileSelector.resx">
       <DependentUpon>FileSelector.cs</DependentUpon>
     </EmbeddedResource>
