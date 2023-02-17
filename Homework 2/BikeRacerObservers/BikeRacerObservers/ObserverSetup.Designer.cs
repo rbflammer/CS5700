@@ -158,6 +158,7 @@
             this.ObserversOfRacersListView.UseCompatibleStateImageBehavior = false;
             this.ObserversOfRacersListView.View = System.Windows.Forms.View.List;
             this.ObserversOfRacersListView.SelectedIndexChanged += new System.EventHandler(this.ObserversOfRacersListView_SelectedIndexChanged);
+            this.ObserversOfRacersListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ObserversOfRacersListView_MouseClick);
             // 
             // CreateRacerObserverBtn
             // 
@@ -191,6 +192,8 @@
             this.CheaterObserverListView.TabIndex = 10;
             this.CheaterObserverListView.UseCompatibleStateImageBehavior = false;
             this.CheaterObserverListView.View = System.Windows.Forms.View.List;
+            this.CheaterObserverListView.SelectedIndexChanged += new System.EventHandler(this.CheaterObserverListView_SelectedIndexChanged);
+            this.CheaterObserverListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheaterObserverListView_MouseClick);
             // 
             // ObserversOfCheatersLbl
             // 

@@ -25,10 +25,16 @@ namespace BikeRacerObservers
         private Dictionary<string, Racer> _racers;
 
         private Dictionary<string, RacerObserver> _racerObservers;
+        private Dictionary<string, CheaterObserver> _cheaterObservers;
+        private CheatingComputer _cheatingComputer;
 
-
-        private bool subscribeButtonEnabled;
-        private bool unsubscribeButtonEnabled;
+        private bool _subscribeButtonEnabled;
+        private bool _unsubscribeButtonEnabled;
+        private bool _usingCheater;
+        private bool _cheaterObserverClicked;
+        private bool _racerObserverClicked;
+        private bool _cheaterObserverIndexChanged;
+        private bool _racerObserverIndexChanged;
 
         public ObserverSetup(string groupPath, string racerPath, string sensorPath)
         {
@@ -41,9 +47,16 @@ namespace BikeRacerObservers
             _racers= new Dictionary<string, Racer>();
 
             _racerObservers= new Dictionary<string, RacerObserver>();
+            _cheaterObservers= new Dictionary<string, CheaterObserver>();
 
-            subscribeButtonEnabled= false;
-            unsubscribeButtonEnabled= false;
+            _subscribeButtonEnabled= false;
+            _unsubscribeButtonEnabled= false;
+            _usingCheater = false;
+
+            _cheaterObserverClicked = false;
+            _racerObserverClicked = false;
+            _cheaterObserverIndexChanged = false;
+            _racerObserverIndexChanged = false;
             InitializeComponent();
         }
 
@@ -96,6 +109,8 @@ namespace BikeRacerObservers
             {
                 cheatingComputer.Subscribe(racer);
             }
+
+            _cheatingComputer = cheatingComputer;
             _racerObservers.Add(cheatingComputer.GetName(), cheatingComputer);
             ObserversOfRacersListView.Items.Add(new ListViewItem(cheatingComputer.GetName()));
 
@@ -104,7 +119,6 @@ namespace BikeRacerObservers
 
             UpdateScreens();
         }
-
 
 
 
@@ -128,7 +142,19 @@ namespace BikeRacerObservers
 
         private void CreateCheaterObserverBtn_Click(object sender, EventArgs e)
         {
+            CheaterObserver newObserver = new CheaterObserver(_cheatingComputer);
 
+            CheaterScreenCreator creator = new CheaterScreenCreator(newObserver);
+            creator.ShowDialog();
+
+            if (newObserver.GetName() == "") return;
+
+            CheaterScreen newScreen = new CheaterScreen(newObserver.GetName());
+            newObserver.SetScreen(newScreen);
+            newScreen.Show();
+
+            _cheaterObservers.Add(newObserver.GetName(), newObserver);
+            CheaterObserverListView.Items.Add(new ListViewItem(newObserver.GetName()));
         }
 
         private void UnobservedRacersListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -142,7 +168,7 @@ namespace BikeRacerObservers
             ObservedRacersListView.Items.Clear();
 
             // If no item is selected
-            if (ObserversOfRacersListView.SelectedItems.Count == 0)
+            if (ObserversOfRacersListView.SelectedItems.Count == 0 && CheaterObserverListView.SelectedItems.Count == 0)
             {
                 ObservedRacersLbl.Text = "Select Racer Observer.";
                 foreach (var racer in _racers)
@@ -155,9 +181,19 @@ namespace BikeRacerObservers
             }
             else
             {
-                ObservedRacersLbl.Text = "Observed Racers of " + ObserversOfRacersListView.SelectedItems[0].Text;
-                RacerObserver observer = _racerObservers[ObserversOfRacersListView.SelectedItems[0].Text];
-                List<Racer> observedRacers = observer.GetRacers();
+                List<Racer> observedRacers;
+                if (!_usingCheater)
+                {
+                    ObservedRacersLbl.Text = "Observed Racers of " + ObserversOfRacersListView.SelectedItems[0].Text;
+                    RacerObserver observer = _racerObservers[ObserversOfRacersListView.SelectedItems[0].Text];
+                    observedRacers = observer.GetRacers();
+                }
+                else
+                {
+                    ObservedRacersLbl.Text = "Observed Racers of " + CheaterObserverListView.SelectedItems[0].Text;
+                    CheaterObserver observer = _cheaterObservers[CheaterObserverListView.SelectedItems[0].Text];
+                    observedRacers = observer.GetRacers();
+                }
 
                 foreach (var racer in observedRacers)
                 {
@@ -188,56 +224,154 @@ namespace BikeRacerObservers
 
         private void SubscribeBtn_Click(object sender, EventArgs e)
         {
-            if (!subscribeButtonEnabled) return;
-            RacerObserver observer = null;
-            if (ObserversOfRacersListView.SelectedItems.Count == 1)
-            {
-                observer = _racerObservers[ObserversOfRacersListView.SelectedItems[0].Text];
-            }
+            if (!_subscribeButtonEnabled) return;
 
-            foreach (ListViewItem item in UnobservedRacersListView.SelectedItems)
+            if (!_usingCheater)
             {
-                observer.Subscribe(_racers[item.Text]);
-            }
+                RacerObserver observer = null;
+                if (ObserversOfRacersListView.SelectedItems.Count == 1)
+                {
+                    observer = _racerObservers[ObserversOfRacersListView.SelectedItems[0].Text];
+                }
 
-            observer.FinishSubscribing();
+                foreach (ListViewItem item in UnobservedRacersListView.SelectedItems)
+                {
+                    observer.Subscribe(_racers[item.Text]);
+                }
+
+                observer.FinishSubscribing();
+            }
+            else
+            {
+                CheaterObserver observer = null;
+                if (CheaterObserverListView.SelectedItems.Count == 1)
+                {
+                    observer = _cheaterObservers[CheaterObserverListView.SelectedItems[0].Text];
+                }
+
+                foreach (ListViewItem item in UnobservedRacersListView.SelectedItems)
+                {
+                    observer.Subscribe(_racers[item.Text]);
+                }
+
+                observer.FinishSubscribing();
+            }
 
             UpdateScreens();
         }
         private void UnsubscribeBtn_Click(object sender, EventArgs e)
         {
-            if (!unsubscribeButtonEnabled) return;
+            if (!_unsubscribeButtonEnabled) return;
 
-            RacerObserver observer = null;
-            if (ObserversOfRacersListView.SelectedItems.Count == 1)
+            if (!_usingCheater)
             {
-                observer = _racerObservers[ObserversOfRacersListView.SelectedItems[0].Text];
-            }
+                RacerObserver observer = null;
+                if (ObserversOfRacersListView.SelectedItems.Count == 1)
+                {
+                    observer = _racerObservers[ObserversOfRacersListView.SelectedItems[0].Text];
+                }
 
-            foreach (ListViewItem item in ObservedRacersListView.SelectedItems)
+                foreach (ListViewItem item in ObservedRacersListView.SelectedItems)
+                {
+                    observer.Unsubscribe(_racers[item.Text]);
+                }
+
+                observer.FinishSubscribing();
+            }
+            else
             {
-                observer.Unsubscribe(_racers[item.Text]);
-            }
+                CheaterObserver observer = null;
+                if (CheaterObserverListView.SelectedItems.Count == 1)
+                {
+                    observer = _cheaterObservers[CheaterObserverListView.SelectedItems[0].Text];
+                }
 
-            observer.FinishSubscribing();
+                foreach (ListViewItem item in ObservedRacersListView.SelectedItems)
+                {
+                    observer.Unsubscribe(_racers[item.Text]);
+                }
+
+                observer.FinishSubscribing();
+            }
 
             UpdateScreens();
         }
 
         private void ObserversOfRacersListView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ObserversOfRacersListView.SelectedItems.Count == 1)
-            {
-                subscribeButtonEnabled= true;
-                unsubscribeButtonEnabled = true;
-            } 
-            else
-            {
-                subscribeButtonEnabled= false;
-                unsubscribeButtonEnabled = false;
-            }
+            _racerObserverIndexChanged = true;
 
-            UpdateScreens();
+            RacerObserverUpdate();
+        }
+
+        private void CheaterObserverListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _cheaterObserverIndexChanged = true;
+
+            CheaterObserverUpdate();
+        }
+
+        private void ObserversOfRacersListView_MouseClick(object sender, MouseEventArgs e)
+        {
+            _cheaterObserverClicked= true;
+
+            RacerObserverUpdate();
+        }
+
+        private void CheaterObserverListView_MouseClick(object sender, MouseEventArgs e)
+        {
+            _racerObserverClicked= true;
+
+            CheaterObserverUpdate();
+        }
+
+        private void CheaterObserverUpdate()
+        {
+            _subscribeButtonEnabled = false;
+            _unsubscribeButtonEnabled = false;
+            _usingCheater = false;
+
+            if (_cheaterObserverClicked && _cheaterObserverIndexChanged)
+            {
+                _cheaterObserverIndexChanged= false;
+                _cheaterObserverClicked = false;
+                _racerObserverClicked= false;
+                _racerObserverIndexChanged= false;
+
+                if (CheaterObserverListView.SelectedItems.Count == 1)
+                {
+                    ObservedRacersListView.SelectedItems.Clear();
+                    _subscribeButtonEnabled = true;
+                    _unsubscribeButtonEnabled = true;
+                    _usingCheater = true;
+                }
+
+                UpdateScreens();
+            }
+        }
+
+        private void RacerObserverUpdate()
+        {
+            _subscribeButtonEnabled = false;
+            _unsubscribeButtonEnabled = false;
+            _usingCheater = false;
+
+            if (_cheaterObserverClicked && _cheaterObserverIndexChanged)
+            {
+                _cheaterObserverIndexChanged = false;
+                _cheaterObserverClicked = false;
+                _racerObserverClicked = false;
+                _racerObserverIndexChanged = false;
+
+                if(ObservedRacersListView.SelectedItems.Count == 1)
+                {
+                    CheaterObserverListView.SelectedItems.Clear();
+                    _subscribeButtonEnabled = true;
+                    _unsubscribeButtonEnabled = true;
+                }
+
+                UpdateScreens();
+            }
         }
     }
 }
