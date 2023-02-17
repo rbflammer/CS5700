@@ -61,7 +61,8 @@ namespace BikeRacerObservers
                 if (racer.CurrentSensorNumber != null)
                 {
                     newItem.SubItems.Add(racer.CurrentSensorNumber.ToString());
-                    newItem.SubItems.Add(TimeSpan.FromMilliseconds((double)racer.CurrentSensorTime - (double)racer.StartTime).ToString(@"hh\:mm\:ss\.fff"));
+                    newItem.SubItems.Add(TimeSpan.FromMilliseconds((double)racer.CurrentSensorTime).ToString(@"hh\:mm\:ss\.fff"));
+                    //newItem.SubItems.Add(TimeSpan.FromMilliseconds((double)racer.CurrentSensorTime - (double)racer.StartTime).ToString(@"hh\:mm\:ss\.fff"));
                 }
 
                 DisplayListView.Items.Add(newItem);

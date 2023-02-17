@@ -130,13 +130,14 @@ namespace BikeRacerObservers
                         int infractionCount = 0;
                         List<long> otherSensorTimes = _racerTimes[otherRacer.BibNumber];
             
-                        for (int i = 0; i < mySensorTimes.Count; i++)
+                        for (int i = mySensorTimes.Count - 1; i > mySensorTimes.Count - 3 && i >= 0; i--)
                         {
                             if (i >= otherSensorTimes.Count) break;
                             if (infractionCount >= 2) break;
                             if (_cheaters.Contains((racer, otherRacer)) || _cheaters.Contains((otherRacer, racer))) break;
-            
-                            if (Math.Abs(mySensorTimes[i] - otherSensorTimes[i]) < 3000) // If they are within three seconds
+
+
+                            if (Math.Abs(mySensorTimes[i] - otherSensorTimes[i]) <= 3000) // If they are within three seconds
                             {
                                 infractionCount++;
                             }
@@ -144,6 +145,7 @@ namespace BikeRacerObservers
             
                         if (infractionCount >= 2)
                         {
+                            Console.WriteLine($"Found new cheaters {racer.BibNumber} and {otherRacer.BibNumber} with time difference {mySensorTimes[mySensorTimes.Count - 1] - otherSensorTimes[otherSensorTimes.Count - 1]} and {mySensorTimes[mySensorTimes.Count - 2] - otherSensorTimes[otherSensorTimes.Count - 2]}");
                             _cheaters.Add((racer, otherRacer));
                             _notifyObservers= true;
                         }

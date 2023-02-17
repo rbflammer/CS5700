@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BikeRacerObservers
 {
@@ -22,6 +23,7 @@ namespace BikeRacerObservers
             _cheaters= new List<(Racer cheater, Racer cheatingWith)>();
 
             _computer= computer;
+            _computer.SubscribeToCheating(this);
         }
         public void Notify()
         {
@@ -36,7 +38,16 @@ namespace BikeRacerObservers
                 }
             }
             if (_screen != null)
-                _screen.Update();
+            {
+                if(_screen.IsHandleCreated)
+                {
+
+                    if (_screen.InvokeRequired)
+                        _screen.Invoke((MethodInvoker)delegate { _screen.Update(_cheaters); });
+                    else
+                        _screen.Update(_cheaters);
+                }
+            }
         }
 
         public void Subscribe(Racer racer) 
@@ -66,6 +77,7 @@ namespace BikeRacerObservers
         public void SetScreen(CheaterScreen screen)
         {
             _screen = screen;
+            _screen.AddObserver(this);
         }
 
         public void SetName(string name)

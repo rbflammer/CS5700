@@ -14,6 +14,7 @@ namespace BikeRacerObservers
     {
         private List<(Racer cheater, Racer cheatedWith)> _cheaters;
         private string _name;
+        private CheaterObserver _observer;
         public CheaterScreen(string name)
         {
             _cheaters = new List<(Racer cheater, Racer cheatedWith)>();
@@ -34,6 +35,11 @@ namespace BikeRacerObservers
             updateScreens();
         }
 
+        public void AddObserver(CheaterObserver observer)
+        {
+            _observer = observer;
+        }
+
         private void updateScreens() 
         {
             CheatersListView.Items.Clear();
@@ -44,7 +50,7 @@ namespace BikeRacerObservers
                 Racer cheatedWith = cheaterCombo.cheatedWith;
 
                 ListViewItem newItem = new ListViewItem(cheater.BibNumber.ToString());
-                newItem.SubItems.Add(cheater.FirstName + " " + cheater.LastName);
+                newItem.SubItems.Add(cheater.LastName + ", " + cheater.FirstName);
                 if (cheater.CurrentSensorNumber != null)
                 {
                     newItem.SubItems.Add(cheater.CurrentSensorNumber.ToString());
@@ -54,7 +60,7 @@ namespace BikeRacerObservers
                 CheatersListView.Items.Add(newItem);
 
                 newItem = new ListViewItem(cheatedWith.BibNumber.ToString());
-                newItem.SubItems.Add(cheatedWith.FirstName + " " + cheatedWith.LastName);
+                newItem.SubItems.Add(cheatedWith.LastName + ", " + cheatedWith.FirstName);
                 if (cheatedWith.CurrentSensorNumber != null)
                 {
                     newItem.SubItems.Add(cheatedWith.CurrentSensorNumber.ToString());
@@ -63,6 +69,13 @@ namespace BikeRacerObservers
 
                 CheatingWithListView.Items.Add(newItem);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Update(_observer.GetCheaters());
+
+            updateScreens();
         }
     }
 }

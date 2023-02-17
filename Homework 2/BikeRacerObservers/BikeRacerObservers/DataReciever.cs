@@ -49,10 +49,10 @@ namespace BikeRacerObservers
                         RacerStatus statusMessage = RacerStatus.Decode(messageByes);
                         if (statusMessage != null)
                         {
-                            Console.WriteLine("Race Bib #={0}, Sensor={1}, Time={2}",
-                                        statusMessage.RacerBibNumber,
-                                        statusMessage.SensorId,
-                                        statusMessage.Timestamp);
+                            //Console.WriteLine("Race Bib #={0}, Sensor={1}, Time={2}",
+                            //            statusMessage.RacerBibNumber,
+                            //            statusMessage.SensorId,
+                            //            statusMessage.Timestamp);
 
                             _racers[statusMessage.RacerBibNumber.ToString()].Update(statusMessage.SensorId, statusMessage.Timestamp);
 
