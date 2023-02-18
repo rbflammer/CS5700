@@ -22,6 +22,8 @@ namespace BikeRacerObservers
         private List<CheaterObserver> _cheaterObservers;
         private bool _notifyObservers;
 
+        private bool _finalized;
+
         public CheatingComputer()
         {
             _racers = new Dictionary<int, Racer>();
@@ -34,6 +36,7 @@ namespace BikeRacerObservers
 
             _cheaterObservers = new List<CheaterObserver>();
             _notifyObservers = false;
+            _finalized = false;
         }
 
         public List<Racer> GetRacers()
@@ -73,6 +76,7 @@ namespace BikeRacerObservers
         public void Notify()
         {
             if (_cheaterCheckRunning) return;
+            _finalized= false;
 
             notifyObservers();
 
@@ -158,6 +162,15 @@ namespace BikeRacerObservers
         public List<(Racer cheater, Racer cheatingWith)> getCheaters()
         {
             return _cheaters;
+        }
+
+        public void FinalizeRace()
+        {
+            if (_finalized) return;
+
+            _finalized = true;
+            while (_cheaterCheckRunning) ;
+            notifyObservers();
         }
     }
 }

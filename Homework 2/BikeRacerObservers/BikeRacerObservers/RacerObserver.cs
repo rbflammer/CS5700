@@ -15,5 +15,6 @@ namespace BikeRacerObservers
         string GetName();
         void SetName(string name);
         void FinishSubscribing();
+        void FinalizeRace();
     }
 }

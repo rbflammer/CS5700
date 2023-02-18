@@ -66,15 +66,27 @@ namespace BikeRacerObservers
             }
         }
 
+        private void displayError()
+        {
+            ErrorLbl.Text = "Please enter valid file locations in all fields.";
+        }
+
         private void SubmitBtn_Click(object sender, EventArgs e)
         {
-            if (!File.Exists( GroupFileTxt.Text )) return;
-            if (!File.Exists( RacerFileTxt.Text )) return;
-            if (!File.Exists( SensorFileTxt.Text )) return;
+            if (!File.Exists(GroupFileTxt.Text) || !File.Exists(RacerFileTxt.Text) || !File.Exists(SensorFileTxt.Text))
+            {
+                displayError();
+                return;
+            }
 
             ObserverSetup observerSetup = new ObserverSetup(GroupFileTxt.Text, RacerFileTxt.Text, SensorFileTxt.Text);
             observerSetup.Show();
             this.Hide();
+        }
+
+        private void FileSelector_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

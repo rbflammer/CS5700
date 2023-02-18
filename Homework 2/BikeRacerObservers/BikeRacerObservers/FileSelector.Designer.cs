@@ -38,6 +38,7 @@
             this.RacerFileLbl = new System.Windows.Forms.Label();
             this.SensorFileLbl = new System.Windows.Forms.Label();
             this.SubmitBtn = new System.Windows.Forms.Button();
+            this.ErrorLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // GroupFileTxt
@@ -133,7 +134,7 @@
             // SubmitBtn
             // 
             this.SubmitBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SubmitBtn.Location = new System.Drawing.Point(292, 239);
+            this.SubmitBtn.Location = new System.Drawing.Point(506, 239);
             this.SubmitBtn.Name = "SubmitBtn";
             this.SubmitBtn.Size = new System.Drawing.Size(110, 51);
             this.SubmitBtn.TabIndex = 9;
@@ -141,11 +142,22 @@
             this.SubmitBtn.UseVisualStyleBackColor = true;
             this.SubmitBtn.Click += new System.EventHandler(this.SubmitBtn_Click);
             // 
+            // ErrorLbl
+            // 
+            this.ErrorLbl.AutoSize = true;
+            this.ErrorLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ErrorLbl.ForeColor = System.Drawing.Color.Red;
+            this.ErrorLbl.Location = new System.Drawing.Point(13, 239);
+            this.ErrorLbl.Name = "ErrorLbl";
+            this.ErrorLbl.Size = new System.Drawing.Size(0, 20);
+            this.ErrorLbl.TabIndex = 10;
+            // 
             // FileSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(678, 302);
+            this.Controls.Add(this.ErrorLbl);
             this.Controls.Add(this.SubmitBtn);
             this.Controls.Add(this.SensorFileLbl);
             this.Controls.Add(this.RacerFileLbl);
@@ -158,6 +170,7 @@
             this.Controls.Add(this.GroupFileTxt);
             this.Name = "FileSelector";
             this.Text = "File Selector";
+            this.Load += new System.EventHandler(this.FileSelector_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,5 +188,6 @@
         private System.Windows.Forms.Label RacerFileLbl;
         private System.Windows.Forms.Label SensorFileLbl;
         private System.Windows.Forms.Button SubmitBtn;
+        private System.Windows.Forms.Label ErrorLbl;
     }
 }

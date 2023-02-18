@@ -76,5 +76,15 @@ namespace BikeRacerObservers
             }
             informingObservers= false;
         }
+
+        public void FinalizeRace()
+        {
+            informingObservers = true;
+            foreach (var observer in _observers)
+            {
+                observer.FinalizeRace();
+            }
+            informingObservers = false;
+        }
     }
 }

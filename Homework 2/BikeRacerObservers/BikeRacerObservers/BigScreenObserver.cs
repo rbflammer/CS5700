@@ -11,10 +11,12 @@ namespace BikeRacerObservers
         private Dictionary<int, Racer> _racers;
         private string _name;
         private BigScreenForm _screen;
+        bool _finalized;
 
         public BigScreenObserver()
         {
             _racers = new Dictionary<int, Racer>();
+            _finalized= false;
         }
         public List<Racer> GetRacers()
         {
@@ -53,6 +55,7 @@ namespace BikeRacerObservers
 
         public void Notify()
         {
+            _finalized = false;
             _screen.Update();
         }
 
@@ -70,6 +73,15 @@ namespace BikeRacerObservers
         public void SetName(string name)
         {
             _name = name;
+        }
+
+        public void FinalizeRace()
+        {
+            if (!_finalized)
+            {
+                _finalized= true;
+                _screen.FinalizeRace();
+            }
         }
     }
 }

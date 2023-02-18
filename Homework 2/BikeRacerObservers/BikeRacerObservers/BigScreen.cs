@@ -34,6 +34,17 @@ namespace BikeRacerObservers
             Text = _name;
         }
 
+        public void FinalizeRace()
+        {
+            if (IsHandleCreated)
+            {
+                if (InvokeRequired)
+                    DisplayListView.Invoke((MethodInvoker)delegate { refreshScreen(); });
+                else
+                    refreshScreen();
+            }
+        }
+
         public void Update()
         {
             if ((DateTime.Now - _lastUpdated).TotalMilliseconds < 500 && !FinsishedContentLoading) return;
