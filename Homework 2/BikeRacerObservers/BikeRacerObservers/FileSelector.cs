@@ -11,6 +11,8 @@ using System.Windows.Forms;
 
 namespace BikeRacerObservers
 {
+    // Entry form to the program.
+    // User selects input data for racers, sensors, and race groups
     public partial class FileSelector : Form
     {
         public FileSelector()
@@ -18,6 +20,7 @@ namespace BikeRacerObservers
             InitializeComponent();
         }
 
+        // Opens a form to select the race group data file
         private void GroupBrowseBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog groupOfd = new OpenFileDialog()
@@ -34,6 +37,7 @@ namespace BikeRacerObservers
             }
         }
 
+        // Opens a form to select the racer data file
         private void RacerBrowseBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog racerOfd = new OpenFileDialog()
@@ -50,6 +54,7 @@ namespace BikeRacerObservers
             }
         }
 
+        // Opens a form to select the sensor data file
         private void SensorBrowseBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog sensorOfd = new OpenFileDialog()
@@ -66,11 +71,14 @@ namespace BikeRacerObservers
             }
         }
 
+        // Displays an error on the screen if an invalid file/file location is selected
         private void displayError()
         {
             ErrorLbl.Text = "Please enter valid file locations in all fields.";
         }
 
+        // Opens the main form with all of the appropriate data when clicked
+        // Hides once the new form is opened
         private void SubmitBtn_Click(object sender, EventArgs e)
         {
             if (!File.Exists(GroupFileTxt.Text) || !File.Exists(RacerFileTxt.Text) || !File.Exists(SensorFileTxt.Text))
@@ -79,14 +87,9 @@ namespace BikeRacerObservers
                 return;
             }
 
-            ObserverSetup observerSetup = new ObserverSetup(GroupFileTxt.Text, RacerFileTxt.Text, SensorFileTxt.Text);
+            ObserverSetup observerSetup = new ObserverSetup(GroupFileTxt.Text, RacerFileTxt.Text, SensorFileTxt.Text, this);
             observerSetup.Show();
             this.Hide();
-        }
-
-        private void FileSelector_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

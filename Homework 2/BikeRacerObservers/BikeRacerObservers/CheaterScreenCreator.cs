@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace BikeRacerObservers
 {
+    // Helper form used to create a new cheater observer form
     public partial class CheaterScreenCreator : Form
     {
         private CheaterObserver _observer;
@@ -20,6 +21,7 @@ namespace BikeRacerObservers
             InitializeComponent();
         }
 
+        // Sets the name of the new cheater observer to the value of the text box
         private void CreateBtn_Click(object sender, EventArgs e)
         {
             _observer.SetName(NameTxt.Text);

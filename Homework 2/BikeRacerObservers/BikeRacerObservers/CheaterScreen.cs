@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace BikeRacerObservers
 {
+    // Form to display observed cheaters from an observer
     public partial class CheaterScreen : Form
     {
         private List<(Racer cheater, Racer cheatedWith)> _cheaters;
@@ -23,23 +24,27 @@ namespace BikeRacerObservers
             InitializeComponent();
         }
 
+        // Sets the name of the window
         private void CheaterDisplay_Load(object sender, EventArgs e)
         {
             Text = _name;
         }
 
+        // Updates the screen with new cheater information
         public void Update(List<(Racer cheater, Racer cheatedWith)> cheaters)
         {
             _cheaters= cheaters;
 
             updateScreens();
         }
-
+        
+        // Sets the observer to this screen
         public void AddObserver(CheaterObserver observer)
         {
             _observer = observer;
         }
 
+        // Updates the screen with new cheater information
         private void updateScreens() 
         {
             CheatersListView.Items.Clear();
@@ -69,13 +74,6 @@ namespace BikeRacerObservers
 
                 CheatingWithListView.Items.Add(newItem);
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Update(_observer.GetCheaters());
-
-            updateScreens();
         }
     }
 }

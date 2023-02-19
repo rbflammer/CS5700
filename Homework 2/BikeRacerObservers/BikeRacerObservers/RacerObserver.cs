@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BikeRacerObservers
 {
+    // Interface used to describe relationship between observer and racer
     public interface RacerObserver
     {
         void Notify();

@@ -33,7 +33,6 @@
             this.RacerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LastSensor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.RefreshBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayListView
@@ -70,23 +69,11 @@
             this.Time.Text = "Time";
             this.Time.Width = 120;
             // 
-            // RefreshBtn
-            // 
-            this.RefreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RefreshBtn.Location = new System.Drawing.Point(365, 444);
-            this.RefreshBtn.Name = "RefreshBtn";
-            this.RefreshBtn.Size = new System.Drawing.Size(105, 41);
-            this.RefreshBtn.TabIndex = 1;
-            this.RefreshBtn.Text = "Refresh";
-            this.RefreshBtn.UseVisualStyleBackColor = true;
-            this.RefreshBtn.Click += new System.EventHandler(this.RefreshBtn_Click);
-            // 
             // BigScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 497);
-            this.Controls.Add(this.RefreshBtn);
+            this.ClientSize = new System.Drawing.Size(800, 454);
             this.Controls.Add(this.DisplayListView);
             this.Name = "BigScreenForm";
             this.Text = "Big Screen";
@@ -102,6 +89,5 @@
         private System.Windows.Forms.ColumnHeader RacerName;
         private System.Windows.Forms.ColumnHeader LastSensor;
         private System.Windows.Forms.ColumnHeader Time;
-        private System.Windows.Forms.Button RefreshBtn;
     }
 }

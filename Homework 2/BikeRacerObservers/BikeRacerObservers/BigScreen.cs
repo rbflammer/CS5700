@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace BikeRacerObservers
 {
+    // Big Screen display of observed racer's progress
     public partial class BigScreenForm : Form
     {
         private List<Racer> _racers;
@@ -29,11 +30,13 @@ namespace BikeRacerObservers
             InitializeComponent();
         }
 
+        // Sets the text of the window upon load
         private void BigScreen_Load(object sender, EventArgs e)
         {
             Text = _name;
         }
 
+        // Refreshes the screen once the race is finished
         public void FinalizeRace()
         {
             if (IsHandleCreated)
@@ -45,8 +48,10 @@ namespace BikeRacerObservers
             }
         }
 
+        // Updates the screen with new information
         public void Update()
         {
+            // Only refreshes every half a second (this makes the results more readable during the race)
             if ((DateTime.Now - _lastUpdated).TotalMilliseconds < 500 && !FinsishedContentLoading) return;
             if (FinsishedContentLoading) FinsishedContentLoading= false;
             _lastUpdated = DateTime.Now;
@@ -60,6 +65,8 @@ namespace BikeRacerObservers
                     refreshScreen();
             }
         }
+
+        // Refrheses the ListView of the screen
         private void refreshScreen()
         {
             bubbleSortRacers();
@@ -80,6 +87,7 @@ namespace BikeRacerObservers
             }   
         }
 
+        // Sorts the racers by time and furthest sensor
         // This only occurs maximum 2 times a second, so it is okay to be O(n^2)
         private void bubbleSortRacers()
         {
@@ -110,6 +118,7 @@ namespace BikeRacerObservers
             _racers = sortedRacers;
         }
 
+        // Adds a racer to this screen
         public void Subscribe(Racer racer)
         {
             if (_racers.Contains(racer)) return;
@@ -117,16 +126,12 @@ namespace BikeRacerObservers
             Update();
         }
 
+        // Removes a racer from this screen
         public void Unsubscribe(Racer racer)
         {
             if (!_racers.Contains(racer)) return;
 
             _racers.Remove(racer);
-            Update();
-        }
-
-        private void RefreshBtn_Click(object sender, EventArgs e)
-        {
             Update();
         }
     }

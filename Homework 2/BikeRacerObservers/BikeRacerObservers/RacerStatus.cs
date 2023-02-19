@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Json;
 
 namespace Messages
 {
+    // Data class used to decode incoming racer information
     [DataContract]
     public class RacerStatus
     {
@@ -20,16 +21,7 @@ namespace Messages
         [DataMember]
         public int Timestamp { get; set; }
 
-        public byte[] Encode()
-        {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(RacerStatus));
-
-            MemoryStream mstream = new MemoryStream();
-            serializer.WriteObject(mstream, this);
-
-            return mstream.ToArray();
-        }
-
+        // Decodes incoming data information
         public static RacerStatus Decode(byte[] bytes)
         {
 

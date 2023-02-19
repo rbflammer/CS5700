@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BikeRacerObservers
 {
+    // Dataclass for storing race group data
     public class RaceGroup
     {
         [Index(0)]

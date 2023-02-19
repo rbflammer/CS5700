@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BikeRacerObservers
 {
+    // Data class used for decoding sensor data
     public class Sensor
     {
         [Index(0)]

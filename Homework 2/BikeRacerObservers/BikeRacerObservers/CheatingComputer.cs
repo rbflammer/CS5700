@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace BikeRacerObservers
 {
+    // RacerObserver class that computes all of the cheaters of the race
+    // THIS FOLLOWS THE OBSERVER PATTERN
     public class CheatingComputer : RacerObserver
     {
         private Dictionary<int, Racer> _racers;
@@ -39,6 +41,7 @@ namespace BikeRacerObservers
             _finalized = false;
         }
 
+        // Returns all of the racers subscribed to by this observer
         public List<Racer> GetRacers()
         {
             List<Racer> output = new List<Racer>();
@@ -49,6 +52,8 @@ namespace BikeRacerObservers
             return output;
         }
 
+        // THE NEXT THREE METHODS ARE PART OF THE OBSERVER PATTERN
+        // Subscribes this observer to a racer
         public void Subscribe(Racer racer)
         {
             // If already subscribed to this racer
@@ -59,6 +64,7 @@ namespace BikeRacerObservers
             racer.Subscribe(this);
         }
 
+        // Unsubscribes this observer from a racer
         public void Unsubscribe(Racer racer)
         {
             // If not subsribed to this racer
@@ -68,11 +74,7 @@ namespace BikeRacerObservers
             racer.Unsubscribe(this);
         }
 
-        public void FinishSubscribing()
-        {
-            // Empty
-        }
-
+        // Updates the data in this observer when a subscribed to racer updates
         public void Notify()
         {
             if (_cheaterCheckRunning) return;
@@ -82,7 +84,7 @@ namespace BikeRacerObservers
 
             foreach (var racer in _racers.Values)
             {
-                if (_racerTimes[racer.BibNumber].Count >= racer.CurrentSensorNumber)
+                if (_racerTimes[racer.BibNumber].Count < racer.CurrentSensorNumber + 1)
                 {
                     _racerTimes[racer.BibNumber].Add((long)racer.CurrentSensorTime);
                     _recentlyUpdated.Add(racer);
@@ -93,17 +95,25 @@ namespace BikeRacerObservers
             _cheaterThread.Start();
             _cheaterCheckRunning= true;
         }
+        public void FinishSubscribing()
+        {
+            // Empty
+        }
 
+        // Returns the name of this observer
         public string GetName()
         {
             return _name;
         }
 
+        // Sets the name of this observer
         public void SetName(string name)
         {
             _name = name;
         }
 
+        // THE NEXT TWO METHODS ARE PART OF THE OBSERVER PATTERN (where this is the base class, not the observer)
+        // Subscribes a CheaterObserver to this observer
         public void SubscribeToCheating(CheaterObserver observer)
         {
             if (_cheaterObservers.Contains(observer)) return;
@@ -111,6 +121,7 @@ namespace BikeRacerObservers
             _cheaterObservers.Add(observer);
         }
 
+        // Notifies all observers when at least one new cheater is found
         private void notifyObservers()
         {
             if (!_notifyObservers) return;
@@ -121,9 +132,11 @@ namespace BikeRacerObservers
             }
         }
 
+        // Finds all new cheaters based on current data
         private void checkCheaters()
         {
             _cheaterCheckRunning= true;
+
             foreach (var racer in _recentlyUpdated)
             {
                 List<long> mySensorTimes = _racerTimes[racer.BibNumber];
@@ -134,12 +147,11 @@ namespace BikeRacerObservers
                         int infractionCount = 0;
                         List<long> otherSensorTimes = _racerTimes[otherRacer.BibNumber];
             
-                        for (int i = mySensorTimes.Count - 1; i > mySensorTimes.Count - 3 && i >= 0; i--)
+                        for (int i = mySensorTimes.Count - 1; i >= mySensorTimes.Count - 3 && i >= 0; i--)
                         {
                             if (i >= otherSensorTimes.Count) break;
                             if (infractionCount >= 2) break;
                             if (_cheaters.Contains((racer, otherRacer)) || _cheaters.Contains((otherRacer, racer))) break;
-
 
                             if (Math.Abs(mySensorTimes[i] - otherSensorTimes[i]) <= 3000) // If they are within three seconds
                             {
@@ -149,7 +161,6 @@ namespace BikeRacerObservers
             
                         if (infractionCount >= 2)
                         {
-                            Console.WriteLine($"Found new cheaters {racer.BibNumber} and {otherRacer.BibNumber} with time difference {mySensorTimes[mySensorTimes.Count - 1] - otherSensorTimes[otherSensorTimes.Count - 1]} and {mySensorTimes[mySensorTimes.Count - 2] - otherSensorTimes[otherSensorTimes.Count - 2]}");
                             _cheaters.Add((racer, otherRacer));
                             _notifyObservers= true;
                         }
@@ -159,17 +170,26 @@ namespace BikeRacerObservers
             _cheaterCheckRunning = false;
         }
 
+        // Returns all current found cheaters
         public List<(Racer cheater, Racer cheatingWith)> getCheaters()
         {
             return _cheaters;
         }
 
+        // Finishes computing all cheaters once the race is finshed
         public void FinalizeRace()
         {
-            if (_finalized) return;
-
+            if (_finalized) return; // Won't run twice
             _finalized = true;
+
+            // Finish current computation
             while (_cheaterCheckRunning) ;
+
+            // Start and finish final process
+            Notify();
+            while (_cheaterCheckRunning) ;
+            
+            // Notifying observers
             notifyObservers();
         }
     }

@@ -71,7 +71,6 @@
             this.Controls.Add(this.NameTxt);
             this.Name = "BigScreenCreator";
             this.Text = "BigScreenCreator";
-            this.Load += new System.EventHandler(this.BigScreenCreator_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

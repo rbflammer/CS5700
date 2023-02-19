@@ -9,11 +9,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BikeRacerObservers
 {
+    // Main form of the application.
+    // Allows user to create observers, and subscribe/unsubscribe observers from racers
     public partial class ObserverSetup : Form
     {
         private string _groupPath;
@@ -32,25 +35,29 @@ namespace BikeRacerObservers
         private bool _unsubscribeButtonEnabled;
         private bool _usingCheater;
 
-        public ObserverSetup(string groupPath, string racerPath, string sensorPath)
+        private FileSelector _parent;
+
+        public ObserverSetup(string groupPath, string racerPath, string sensorPath, FileSelector parent)
         {
-            _groupPath= groupPath;
-            _racerPath= racerPath;
-            _sensorPath= sensorPath;
+            _groupPath = groupPath;
+            _racerPath = racerPath;
+            _sensorPath = sensorPath;
 
-            _sensors= new List<Sensor>();
-            _raceGroups= new Dictionary<int, RaceGroup>();
-            _racers= new Dictionary<string, Racer>();
+            _sensors = new List<Sensor>();
+            _raceGroups = new Dictionary<int, RaceGroup>();
+            _racers = new Dictionary<string, Racer>();
 
-            _racerObservers= new Dictionary<string, RacerObserver>();
-            _cheaterObservers= new Dictionary<string, CheaterObserver>();
+            _racerObservers = new Dictionary<string, RacerObserver>();
+            _cheaterObservers = new Dictionary<string, CheaterObserver>();
 
-            _subscribeButtonEnabled= false;
-            _unsubscribeButtonEnabled= false;
+            _subscribeButtonEnabled = false;
+            _unsubscribeButtonEnabled = false;
             _usingCheater = false;
             InitializeComponent();
+            _parent = parent;  
         }
 
+        // Loads in all data files and sets up cheating computer
         private void ObserverSetup_Load(object sender, EventArgs e)
         {
             ObservedRacersListView.Items.Clear();
@@ -61,38 +68,48 @@ namespace BikeRacerObservers
                 MissingFieldFound = null,
             };
 
-            using (var streamReader = new StreamReader(_sensorPath))
-            using (var csvSplitter = new CsvReader(streamReader, csvConfig) )
+            // Reading in all data
+            try
             {
-                var sensors = csvSplitter.GetRecords<Sensor>();
-                foreach (var sensor in sensors)
+                using (var streamReader = new StreamReader(_sensorPath))
+                using (var csvSplitter = new CsvReader(streamReader, csvConfig) )
                 {
-                    _sensors.Add(sensor);
+                    var sensors = csvSplitter.GetRecords<Sensor>();
+                    foreach (var sensor in sensors)
+                    {
+                        _sensors.Add(sensor);
+                    }
                 }
+
+                using (var streamReader = new StreamReader(_groupPath))
+                using (var csvSplitter = new CsvReader(streamReader, csvConfig))
+                {
+                    var groups = csvSplitter.GetRecords<RaceGroup>();
+                    foreach (var group in groups)
+                    {
+                        _raceGroups.Add(group.Id, group);
+                    }
+                }
+
+                using (var streamReader = new StreamReader(_racerPath))
+                using (var csvSplitter = new CsvReader(streamReader, csvConfig))
+                {
+                    var racers = csvSplitter.GetRecords<Racer>();
+                    foreach (var racer in racers)
+                    {
+                        racer.StartTime = _raceGroups[racer.Group].StartTime;
+                        _racers.Add(racer.BibNumber.ToString(), racer);
+                    }
+                }
+            } 
+            catch // Displays an error message then closes
+            {
+                MessageBox.Show("Failure parsing at least one of the files. Please re-launch and try again");
+                _parent.Close();
+                this.Close();
             }
 
-            using (var streamReader = new StreamReader(_groupPath))
-            using (var csvSplitter = new CsvReader(streamReader, csvConfig))
-            {
-                var groups = csvSplitter.GetRecords<RaceGroup>();
-                foreach (var group in groups)
-                {
-                    _raceGroups.Add(group.Id, group);
-                }
-            }
-
-            using (var streamReader = new StreamReader(_racerPath))
-            using (var csvSplitter = new CsvReader(streamReader, csvConfig))
-            {
-                var racers = csvSplitter.GetRecords<Racer>();
-                foreach (var racer in racers)
-                {
-                    racer.StartTime = _raceGroups[racer.Group].StartTime;
-                    _racers.Add(racer.BibNumber.ToString(), racer);
-                }
-            }
-
-
+            // Setting up cheating computer
             CheatingComputer cheatingComputer = new CheatingComputer();
             cheatingComputer.SetName("Cheating Computer");
 
@@ -101,18 +118,19 @@ namespace BikeRacerObservers
                 cheatingComputer.Subscribe(racer);
             }
 
+            // Adding cheating computer to Observers of Racers
             _cheatingComputer = cheatingComputer;
             _racerObservers.Add(cheatingComputer.GetName(), cheatingComputer);
             ObserversOfRacersListView.Items.Add(new ListViewItem(cheatingComputer.GetName()));
 
+            // Sets-up DataReciever
             DataReceiver dataReceiver = new DataReceiver();
             dataReceiver.Start(_racers);
 
             UpdateScreens();
         }
 
-
-
+        // Creates a racer observer. Launches external form to help
         private void CreateRacerObserverBtn_Click(object sender, EventArgs e)
         {
             BigScreenObserver newObserver = new BigScreenObserver();
@@ -131,6 +149,7 @@ namespace BikeRacerObservers
 
         }
 
+        // Creates a cheater observer. Launches another form to help.
         private void CreateCheaterObserverBtn_Click(object sender, EventArgs e)
         {
             CheaterObserver newObserver = new CheaterObserver(_cheatingComputer);
@@ -148,11 +167,7 @@ namespace BikeRacerObservers
             CheaterObserverListView.Items.Add(new ListViewItem(newObserver.GetName()));
         }
 
-        private void UnobservedRacersListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        // Updates the racer listviews to show subscribed/unsubscribed racers
         private void UpdateScreens()
         {
             UnobservedRacersListView.Items.Clear();
@@ -235,12 +250,13 @@ namespace BikeRacerObservers
             }
         }
 
+        // Closes everything when this form closes
         private void ObserverSetup_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
 
-
+        // Subscribes selected observer to selected unobserved racers
         private void SubscribeBtn_Click(object sender, EventArgs e)
         {
             if (!_subscribeButtonEnabled) return;
@@ -278,6 +294,8 @@ namespace BikeRacerObservers
 
             UpdateScreens();
         }
+
+        // Unsubscribes selected observer from selected observed racers
         private void UnsubscribeBtn_Click(object sender, EventArgs e)
         {
             if (!_unsubscribeButtonEnabled) return;
@@ -316,6 +334,7 @@ namespace BikeRacerObservers
             UpdateScreens();
         }
 
+        // Updates selected observer and screens when a new observer is selected/deselected
         private void ObserversOfRacersListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ObserversOfRacersListView.SelectedItems.Count == 1)
@@ -334,6 +353,7 @@ namespace BikeRacerObservers
             UpdateScreens();
         }
 
+        // Updates selected observer and screens when a new observer is selected/deselected
         private void CheaterObserverListView_SelectedIndexChanged(object sender, EventArgs e)
         {
   

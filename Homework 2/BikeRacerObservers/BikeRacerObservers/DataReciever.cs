@@ -11,6 +11,7 @@ using Messages;
 
 namespace BikeRacerObservers
 {
+    // Helpser class used to recieve udp racer data on its own thread
     public class DataReceiver
     {
         private UdpClient udpClient;
@@ -19,21 +20,22 @@ namespace BikeRacerObservers
 
         private Dictionary<string, Racer> _racers;
 
+        private bool finalizedRace;
+
+        // Starts listening for incoming racer data
         public void Start(Dictionary<string, Racer> racers)
         {
             _racers= racers;
 
             udpClient = new UdpClient(14000);
             keepGoing = true;
+            finalizedRace = false;
             myRunThread = new Thread(new ThreadStart(Run));
+            myRunThread.IsBackground = true;
             myRunThread.Start();
         }
 
-        public void Stop()
-        {
-            keepGoing = false;
-        }
-
+        // Listens for incoming racer data and updates racers accordingly
         private void Run()
         {
             while (keepGoing)
@@ -49,20 +51,21 @@ namespace BikeRacerObservers
                         RacerStatus statusMessage = RacerStatus.Decode(messageByes);
                         if (statusMessage != null)
                         {
-                            //Console.WriteLine("Race Bib #={0}, Sensor={1}, Time={2}",
-                            //            statusMessage.RacerBibNumber,
-                            //            statusMessage.SensorId,
-                            //            statusMessage.Timestamp);
-
                             _racers[statusMessage.RacerBibNumber.ToString()].Update(statusMessage.SensorId, statusMessage.Timestamp);
-
-                            // A non-dummy server would do something intelligent with the message,
-                            // like lookup the racer and update the last sensor and time
+                            finalizedRace = false;
                         }
                     }
                 }
                 catch (SocketException err)
                 {
+                    if (!finalizedRace) // Informs all racers that the race is finished when the data stops coming in
+                    {
+                        finalizedRace = true;
+                        foreach (var racer in _racers.Values)
+                        {
+                            racer.FinalizeRace();
+                        }
+                    }
                     if (err.SocketErrorCode != SocketError.Interrupted && err.SocketErrorCode != SocketError.TimedOut)
                         throw err;
                 }

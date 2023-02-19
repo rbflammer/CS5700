@@ -170,7 +170,6 @@
             this.Controls.Add(this.GroupFileTxt);
             this.Name = "FileSelector";
             this.Text = "File Selector";
-            this.Load += new System.EventHandler(this.FileSelector_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

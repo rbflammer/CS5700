@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 namespace BikeRacerObservers
 {
+    // Helper form used in the creation of a BigScreen and BigScreenObserver
+    // Used to get the name of the new observer and screen
     public partial class BigScreenCreator : Form
     {
         private BigScreenObserver _observer;
@@ -20,11 +22,7 @@ namespace BikeRacerObservers
             InitializeComponent();
         }
 
-        private void BigScreenCreator_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        // Sets the name of the new observer
         private void CreateBtn_Click(object sender, EventArgs e)
         {
             _observer.SetName(NameTxt.Text);

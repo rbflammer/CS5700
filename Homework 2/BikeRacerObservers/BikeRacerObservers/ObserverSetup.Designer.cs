@@ -59,7 +59,6 @@
             this.UnobservedRacersListView.TabIndex = 0;
             this.UnobservedRacersListView.UseCompatibleStateImageBehavior = false;
             this.UnobservedRacersListView.View = System.Windows.Forms.View.Details;
-            this.UnobservedRacersListView.SelectedIndexChanged += new System.EventHandler(this.UnobservedRacersListView_SelectedIndexChanged);
             // 
             // bib
             // 
